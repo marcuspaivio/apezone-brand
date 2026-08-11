@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -638.942 1175.52 194.223" role="img" aria-label="APEZONE — Extrude">
+  <defs><path id="extrude-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -561.19 L 436.47 -561.19 L 436.47 -530.32 L 380.93 -530.32 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -561.19 L 1175.52 -561.19 L 1175.52 -530.32 L 1119.98 -530.32 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+  </defs>
+  <rect x="0" y="-638.942" width="1175.52" height="194.223" fill="#0A1116"/>
+    <g>
+      <use href="#extrude-p" transform="translate(27.00,27.00)" fill="rgb(27,40,48)"/>
+      <use href="#extrude-p" transform="translate(26.10,26.10)" fill="rgb(28,41,50)"/>
+      <use href="#extrude-p" transform="translate(25.20,25.20)" fill="rgb(29,43,51)"/>
+      <use href="#extrude-p" transform="translate(24.30,24.30)" fill="rgb(31,44,53)"/>
+      <use href="#extrude-p" transform="translate(23.40,23.40)" fill="rgb(32,46,54)"/>
+      <use href="#extrude-p" transform="translate(22.50,22.50)" fill="rgb(33,47,56)"/>
+      <use href="#extrude-p" transform="translate(21.60,21.60)" fill="rgb(34,48,58)"/>
+      <use href="#extrude-p" transform="translate(20.70,20.70)" fill="rgb(35,50,59)"/>
+      <use href="#extrude-p" transform="translate(19.80,19.80)" fill="rgb(37,51,61)"/>
+      <use href="#extrude-p" transform="translate(18.90,18.90)" fill="rgb(38,53,62)"/>
+      <use href="#extrude-p" transform="translate(18.00,18.00)" fill="rgb(39,54,64)"/>
+      <use href="#extrude-p" transform="translate(17.10,17.10)" fill="rgb(40,55,66)"/>
+      <use href="#extrude-p" transform="translate(16.20,16.20)" fill="rgb(41,57,67)"/>
+      <use href="#extrude-p" transform="translate(15.30,15.30)" fill="rgb(43,58,69)"/>
+      <use href="#extrude-p" transform="translate(14.40,14.40)" fill="rgb(44,60,70)"/>
+      <use href="#extrude-p" transform="translate(13.50,13.50)" fill="rgb(45,61,72)"/>
+      <use href="#extrude-p" transform="translate(12.60,12.60)" fill="rgb(46,62,74)"/>
+      <use href="#extrude-p" transform="translate(11.70,11.70)" fill="rgb(47,64,75)"/>
+      <use href="#extrude-p" transform="translate(10.80,10.80)" fill="rgb(49,65,77)"/>
+      <use href="#extrude-p" transform="translate(9.90,9.90)" fill="rgb(50,67,78)"/>
+      <use href="#extrude-p" transform="translate(9.00,9.00)" fill="rgb(51,68,80)"/>
+      <use href="#extrude-p" transform="translate(8.10,8.10)" fill="rgb(52,69,82)"/>
+      <use href="#extrude-p" transform="translate(7.20,7.20)" fill="rgb(53,71,83)"/>
+      <use href="#extrude-p" transform="translate(6.30,6.30)" fill="rgb(55,72,85)"/>
+      <use href="#extrude-p" transform="translate(5.40,5.40)" fill="rgb(56,74,86)"/>
+      <use href="#extrude-p" transform="translate(4.50,4.50)" fill="rgb(57,75,88)"/>
+      <use href="#extrude-p" transform="translate(3.60,3.60)" fill="rgb(58,76,90)"/>
+      <use href="#extrude-p" transform="translate(2.70,2.70)" fill="rgb(59,78,91)"/>
+      <use href="#extrude-p" transform="translate(1.80,1.80)" fill="rgb(61,79,93)"/>
+      <use href="#extrude-p" transform="translate(0.90,0.90)" fill="rgb(62,81,94)"/>
+      <use href="#extrude-p" fill="#C6D2D6"/>
+    </g>
+</svg>
