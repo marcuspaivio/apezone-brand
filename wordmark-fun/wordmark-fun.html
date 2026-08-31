@@ -1,0 +1,1465 @@
+<!doctype html>
+<html lang="en"><head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apezone wordmark — surface treatments</title>
+<style>
+:root{color-scheme:light dark;
+  --ink:#0A1116;--bone:#C6D2D6;--paper:#F2F1EE;--amber:#D9B36A;--brass:#9C7C3C;
+  --bg:var(--paper);--fg:var(--ink);--soft:#42525C;--rule:#CFCEC8;--surface:#E8E7E2;
+  --accent:#7E6330;--pass:#2F6B4F;--warn:#6B6318;--fail:#8A3B2A}
+@media (prefers-color-scheme:dark){:root{
+  --bg:var(--ink);--fg:var(--bone);--soft:#8A9AA3;--rule:#22303A;--surface:#141E25;
+  --accent:var(--amber);--pass:#6FAF8C;--warn:#CFB84E;--fail:#D08C77}}
+:root[data-theme="dark"]{
+  --bg:var(--ink);--fg:var(--bone);--soft:#8A9AA3;--rule:#22303A;--surface:#141E25;
+  --accent:var(--amber);--pass:#6FAF8C;--warn:#CFB84E;--fail:#D08C77}
+:root[data-theme="light"]{
+  --bg:var(--paper);--fg:var(--ink);--soft:#42525C;--rule:#CFCEC8;--surface:#E8E7E2;
+  --accent:#7E6330;--pass:#2F6B4F;--warn:#6B6318;--fail:#8A3B2A}
+*{box-sizing:border-box}
+/* Bare links were never styled, so any <a> outside .dl or .sum fell through to the browser
+   default — pure #0000EE, which is 2.02:1 on Ink and unreadable in dark mode. One escaped
+   into round two's footer. --accent is theme-aware and clears AA on both grounds. */
+a{color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.55 "Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+h1{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.02em;margin:0 0 4px}
+.lede{color:var(--soft);max-width:62ch;margin:0 0 8px}
+.warn{border-left:3px solid var(--accent);padding:12px 16px;margin:24px 0 40px;
+  background:var(--surface);max-width:72ch}
+.warn strong{color:var(--fg)}
+.card{border:1px solid var(--rule);border-radius:6px;margin:0 0 28px;overflow:hidden;
+  background:var(--surface)}
+.card>header{display:flex;align-items:baseline;gap:12px;padding:14px 18px 0}
+.card h2{font-size:20px;font-weight:700;margin:0;letter-spacing:-.01em}
+.fam{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.dl{margin-left:auto;font-size:12px;color:var(--accent);text-decoration:none;
+  font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+.dl:hover{text-decoration:underline}
+.blurb{margin:6px 18px 14px;color:var(--soft);max-width:74ch;font-size:14.5px}
+.shots{display:flex;flex-wrap:wrap;gap:1px;background:var(--rule)}
+.shot{margin:0;flex:1 1 auto;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:10px;padding:26px 22px;min-width:0}
+.shot:first-child{flex:1 1 100%}
+.shot svg{max-width:100%;height:auto;display:block}
+figcaption{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.strip{border:1px solid var(--rule);border-radius:6px;padding:0;overflow:hidden;margin:8px 0 40px}
+.strip h2{font-size:20px;margin:0;padding:14px 18px 0}
+.strip p{margin:6px 18px 14px;color:var(--soft);font-size:14.5px;max-width:74ch}
+.striprow{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--rule)}
+@media(max-width:900px){.striprow{grid-template-columns:repeat(2,1fr)}}
+.striprow figure{margin:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;padding:18px 8px;min-width:0}
+.striprow svg{max-width:100%;height:auto}
+.verdict{display:flex;gap:10px;align-items:baseline;margin:14px 18px 0;font-size:14px;
+  color:var(--soft);max-width:80ch}
+.grade{flex:none;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:3px 8px;border-radius:3px;position:relative;top:-1px}
+/* Through the theme variables, not hard-coded per scheme — the pills were the one place
+   that duplicated the palette, and duplicating it is how a data-theme toggle half-applies.
+   Outline and text only: the tinted `rgba(…, .16)` ground these used to carry made them
+   **unmeasurable**. `contrast-check.js` reads the nearest non-transparent background
+   literally and does not composite alpha, so a 16% wash of the pill's own colour resolved
+   to that exact colour and every pill reported 1.00:1 — indistinguishable in the output
+   from text painted invisibly on itself. The house reports carry no such tint and score
+   zero failures. Dropping it costs a barely-visible wash and makes the real ratio, text on
+   --surface, the number the gate actually sees. */
+.gholds{color:var(--pass);box-shadow:inset 0 0 0 1px var(--pass)}
+.gsoftens{color:var(--warn);box-shadow:inset 0 0 0 1px var(--warn)}
+.gfails{color:var(--fail);box-shadow:inset 0 0 0 1px var(--fail)}
+.floor{display:block;margin:8px 18px 16px;font-size:12.5px;color:var(--soft);
+  font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+.floor b{color:var(--fg)}
+.floor em{font-style:normal;opacity:.72}
+h3{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);
+  margin:40px 0 12px;font-weight:600}
+footer{color:var(--soft);font-size:13px;border-top:1px solid var(--rule);padding-top:18px;
+  margin-top:40px}
+code{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:.9em}
+.sum{border-collapse:collapse;width:100%;margin:0 0 40px;font-size:14px}
+.sum th{text-align:left;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--soft);border-bottom:1px solid var(--rule);padding:8px 10px;font-weight:600}
+.sum td{padding:7px 10px;border-bottom:1px solid var(--rule)}
+.sum tr:nth-child(even) td{background:var(--surface)}
+.sum td:last-child{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  text-align:right;white-space:nowrap}
+.sum a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.sum a:hover{border-color:var(--accent)}
+</style>
+</head><body><div class="wrap">
+<div style="border:1px solid var(--accent);border-left:4px solid var(--accent);
+background:var(--surface);border-radius:0 3px 3px 0;padding:18px 22px;margin:0 0 26px">
+  <span style="font-family:var(--sans,inherit);font-size:11px;font-weight:600;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px">Reviewed by the band</span>
+  <p style="margin:0;font-size:16px;line-height:1.6"><strong>The band has now seen this work.</strong>
+  Reported 2026&#8209;08&#8209;30: every member read the shared material and looked at the artwork.
+  They <strong>like</strong> the wordmark, the skull, the year rings and the timeline, and they
+  <strong>love</strong> the illustrated generated work.</p>
+  <p style="margin:11px 0 0;font-size:16px;line-height:1.6">That is a response to a
+  <strong>direction</strong>, not a signature on each item. Individual artefacts, whether B&ouml;bbis
+  becomes a standing per-release character, whether the skull is ever publicly named, and printing or
+  selling anything are all <strong>still open</strong>. Where a direction was chosen inside a round,
+  <strong>that was Marcus&rsquo;s call</strong>.</p>
+  <p style="margin:11px 0 0;font-size:15px;line-height:1.55;opacity:.8">Start with
+  <a href="../brand-progress.html">the plain-language overview</a> if you haven&rsquo;t already.</p>
+</div><div style="border:1px solid var(--accent);border-left:4px solid var(--accent);
+background:var(--surface);border-radius:0 3px 3px 0;padding:18px 22px;margin:0 0 26px">
+  <span style="font-size:11px;font-weight:600;letter-spacing:.19em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:8px">Explorations, not proposals</span>
+  <p style="margin:0;font-size:16px;line-height:1.6">These are <strong>explorations, not
+  proposals</strong> &mdash; nobody has asked for the mark to be changed and nothing here is a
+  brand asset. The band&rsquo;s 2026&#8209;08&#8209;30 review covered the settled identity and the
+  illustrated work; <strong>it did not cover these</strong>.</p>
+</div>
+<h1>Wordmark — surface treatments</h1>
+<p class="lede">Fourteen dressings of the same mark. The path is
+<code>brand/logo-build/masters/wordmark-master.svg</code> verbatim in every one — nothing redrawn,
+respaced or stretched — so the only variable is surface.</p>
+
+<div class="warn"><strong>These are not brand assets.</strong> Most of them break
+<code>assets/logos/USAGE.md</code> — <em>"no effects: no bevel, glow, gradient, drop shadow,
+outline stroke"</em> — and that is the point of the exercise, not an oversight. Colours are drawn
+from <code>brand/colour.md</code> where the effect allows it; <em>Chrome</em>, <em>Liquid</em> and
+<em>Cold glow</em> need values off the palette to describe a lit surface at all, which is the same
+finding task 3.2 hit with the skull. Nothing here is written to <code>assets/</code>.</div>
+
+<h3>Small sizes, at a glance</h3>
+<p class="lede">Two different questions, and they have different answers. <em>Reads</em> is whether
+the word is still a word. <em>Effect floor</em> is the width below which the treatment stops being
+itself — computed from the feature size, not judged by eye: every effect is specified in artwork
+units, so it shrinks at exactly the rate the letterforms do.</p>
+<table class="sum">
+<thead><tr><th>Treatment</th><th>Family</th><th>Reads</th><th>Effect floor</th></tr></thead>
+<tbody><tr><td><a href="#dusk">Dusk</a></td><td>Flat</td><td><span class="grade gholds">Holds</span></td><td>&mdash;</td></tr><tr><td><a href="#chrome">Chrome</a></td><td>Metal</td><td><span class="grade gsoftens">Softens</span></td><td>181 px</td></tr><tr><td><a href="#brass-emboss">Brass emboss</a></td><td>Metal</td><td><span class="grade gholds">Holds</span></td><td>392 px</td></tr><tr><td><a href="#gold-foil">Gold foil</a></td><td>Metal</td><td><span class="grade gholds">Holds</span></td><td>141 px</td></tr><tr><td><a href="#liquid">Liquid</a></td><td>Metal</td><td><span class="grade gsoftens">Softens</span></td><td>196 px</td></tr><tr><td><a href="#chisel">Chisel</a></td><td>Cut</td><td><span class="grade gsoftens">Softens</span></td><td>678 px</td></tr><tr><td><a href="#deboss">Deboss</a></td><td>Cut</td><td><span class="grade gfails">Fails</span></td><td>336 px</td></tr><tr><td><a href="#punched-plate">Punched plate</a></td><td>Cut</td><td><span class="grade gholds">Holds</span></td><td>168 px</td></tr><tr><td><a href="#extrude">Extrude</a></td><td>Dimensional</td><td><span class="grade gholds">Holds</span></td><td>87 px</td></tr><tr><td><a href="#neon">Neon</a></td><td>Light</td><td><span class="grade gsoftens">Softens</span></td><td>336 px</td></tr><tr><td><a href="#cold-glow">Cold glow</a></td><td>Light</td><td><span class="grade gholds">Holds</span></td><td>353 px</td></tr><tr><td><a href="#engraved-hatch">Engraved hatch</a></td><td>Screened</td><td><span class="grade gfails">Fails</span></td><td>235 px</td></tr><tr><td><a href="#halftone">Halftone fade</a></td><td>Screened</td><td><span class="grade gholds">Holds</span></td><td>207 px</td></tr><tr><td><a href="#signal-loss">Signal loss</a></td><td>Screened</td><td><span class="grade gsoftens">Softens</span></td><td>392 px</td></tr></tbody>
+</table>
+
+<h3>The set</h3>
+
+<section class="card" id="dusk">
+  <header>
+    <h2>Dusk</h2>
+    <span class="fam">Flat</span>
+    <a class="dl" href="svg/dusk.svg">dusk.svg</a>
+  </header>
+  <p class="blurb">A single vertical ramp, Bone falling to Steel. The tamest thing in this set — no bevel, no light source, nothing to break. Closest to something the guide could actually be talked into.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Dusk">
+  <defs><path id="dusk0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="dusk0-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E4EDF0"/>
+      <stop offset=".5" stop-color="#C6D2D6"/>
+      <stop offset="1" stop-color="#546977"/>
+    </linearGradient>
+  </defs>
+    <use href="#dusk0-p" fill="url(#dusk0-g)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Dusk">
+  <defs><path id="dusk1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="dusk1-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E4EDF0"/>
+      <stop offset=".5" stop-color="#C6D2D6"/>
+      <stop offset="1" stop-color="#546977"/>
+    </linearGradient>
+  </defs>
+    <use href="#dusk1-p" fill="url(#dusk1-g)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Dusk">
+  <defs><path id="dusk2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="dusk2-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E4EDF0"/>
+      <stop offset=".5" stop-color="#C6D2D6"/>
+      <stop offset="1" stop-color="#546977"/>
+    </linearGradient>
+  </defs>
+    <use href="#dusk2-p" fill="url(#dusk2-g)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gholds">Holds</span>No fine feature to lose. At 96 px the ramp collapses to a flat mid-Bone, which is the master.</p>
+</section>
+<section class="card" id="chrome">
+  <header>
+    <h2>Chrome</h2>
+    <span class="fam">Metal</span>
+    <a class="dl" href="svg/chrome.svg">chrome.svg</a>
+  </header>
+  <p class="blurb">The full 1984 treatment: a horizon line across the middle of the cap height, sky above, ground below, dark keyline holding it all in. Loud, and it knows it.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chrome">
+  <defs><path id="chrome0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="chrome0-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#F6FBFD"/>
+      <stop offset=".17"  stop-color="#BCCBD3"/>
+      <stop offset=".35"  stop-color="#6C8492"/>
+      <stop offset=".475" stop-color="#16222C"/>
+      <stop offset=".505" stop-color="#0A1116"/>
+      <stop offset=".535" stop-color="#405A68"/>
+      <stop offset=".62"  stop-color="#CBDBE2"/>
+      <stop offset=".72"  stop-color="#F2F1EE"/>
+      <stop offset=".86"  stop-color="#7E939F"/>
+      <stop offset="1"    stop-color="#33454F"/>
+    </linearGradient>
+    <filter id="chrome0-f" x="-8%" y="-40%" width="116%" height="200%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <g filter="url(#chrome0-f)">
+      <use href="#chrome0-p" fill="none" stroke="#05090C" stroke-width="13" stroke-linejoin="round"/>
+      <use href="#chrome0-p" fill="url(#chrome0-g)"/>
+    </g>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chrome">
+  <defs><path id="chrome1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="chrome1-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#F6FBFD"/>
+      <stop offset=".17"  stop-color="#BCCBD3"/>
+      <stop offset=".35"  stop-color="#6C8492"/>
+      <stop offset=".475" stop-color="#16222C"/>
+      <stop offset=".505" stop-color="#0A1116"/>
+      <stop offset=".535" stop-color="#405A68"/>
+      <stop offset=".62"  stop-color="#CBDBE2"/>
+      <stop offset=".72"  stop-color="#F2F1EE"/>
+      <stop offset=".86"  stop-color="#7E939F"/>
+      <stop offset="1"    stop-color="#33454F"/>
+    </linearGradient>
+    <filter id="chrome1-f" x="-8%" y="-40%" width="116%" height="200%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <g filter="url(#chrome1-f)">
+      <use href="#chrome1-p" fill="none" stroke="#05090C" stroke-width="13" stroke-linejoin="round"/>
+      <use href="#chrome1-p" fill="url(#chrome1-g)"/>
+    </g>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chrome">
+  <defs><path id="chrome2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="chrome2-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#F6FBFD"/>
+      <stop offset=".17"  stop-color="#BCCBD3"/>
+      <stop offset=".35"  stop-color="#6C8492"/>
+      <stop offset=".475" stop-color="#16222C"/>
+      <stop offset=".505" stop-color="#0A1116"/>
+      <stop offset=".535" stop-color="#405A68"/>
+      <stop offset=".62"  stop-color="#CBDBE2"/>
+      <stop offset=".72"  stop-color="#F2F1EE"/>
+      <stop offset=".86"  stop-color="#7E939F"/>
+      <stop offset="1"    stop-color="#33454F"/>
+    </linearGradient>
+    <filter id="chrome2-f" x="-8%" y="-40%" width="116%" height="200%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <g filter="url(#chrome2-f)">
+      <use href="#chrome2-p" fill="none" stroke="#05090C" stroke-width="13" stroke-linejoin="round"/>
+      <use href="#chrome2-p" fill="url(#chrome2-g)"/>
+    </g>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gsoftens">Softens</span>Legible at 96 px but no longer chrome — the horizon band lands mid-stem and reads as a hollow rather than a reflection.</p><span class="floor">Effect floor <b>181 px</b> <em>&mdash; outer keyline 6.5 units, needs 1 px</em></span>
+</section>
+<section class="card" id="brass-emboss">
+  <header>
+    <h2>Brass emboss</h2>
+    <span class="fam">Metal</span>
+    <a class="dl" href="svg/brass-emboss.svg">brass-emboss.svg</a>
+  </header>
+  <p class="blurb">Aged Brass raised off the ground, lit from the upper left by a distant light — specular highlight on the top-left edges, the fill darkening away from it. A cast plaque rather than a chrome sticker.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Brass emboss">
+  <defs><path id="brass-emboss0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="brass-emboss0-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#D8B268"/>
+      <stop offset=".42" stop-color="#9C7C3C"/>
+      <stop offset=".58" stop-color="#6F5320"/>
+      <stop offset="1"   stop-color="#B3924A"/>
+    </linearGradient>
+    <filter id="brass-emboss0-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".55"
+                    result="dropped"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.5" result="b"/>
+      <feSpecularLighting in="b" surfaceScale="7" specularConstant=".95" specularExponent="18"
+                          lighting-color="#FFF4DC" result="s">
+        <feDistantLight azimuth="235" elevation="58"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="dropped" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#brass-emboss0-p" fill="url(#brass-emboss0-g)" filter="url(#brass-emboss0-f)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Brass emboss">
+  <defs><path id="brass-emboss1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="brass-emboss1-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#D8B268"/>
+      <stop offset=".42" stop-color="#9C7C3C"/>
+      <stop offset=".58" stop-color="#6F5320"/>
+      <stop offset="1"   stop-color="#B3924A"/>
+    </linearGradient>
+    <filter id="brass-emboss1-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".55"
+                    result="dropped"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.5" result="b"/>
+      <feSpecularLighting in="b" surfaceScale="7" specularConstant=".95" specularExponent="18"
+                          lighting-color="#FFF4DC" result="s">
+        <feDistantLight azimuth="235" elevation="58"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="dropped" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#brass-emboss1-p" fill="url(#brass-emboss1-g)" filter="url(#brass-emboss1-f)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Brass emboss">
+  <defs><path id="brass-emboss2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="brass-emboss2-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#D8B268"/>
+      <stop offset=".42" stop-color="#9C7C3C"/>
+      <stop offset=".58" stop-color="#6F5320"/>
+      <stop offset="1"   stop-color="#B3924A"/>
+    </linearGradient>
+    <filter id="brass-emboss2-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".55"
+                    result="dropped"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.5" result="b"/>
+      <feSpecularLighting in="b" surfaceScale="7" specularConstant=".95" specularExponent="18"
+                          lighting-color="#FFF4DC" result="s">
+        <feDistantLight azimuth="235" elevation="58"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="dropped" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#brass-emboss2-p" fill="url(#brass-emboss2-g)" filter="url(#brass-emboss2-f)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gholds">Holds</span>The best of the metals small: the bevel goes but the fill is solid gold and the silhouette is untouched, so it degrades to a clean brass wordmark instead of to mush.</p><span class="floor">Effect floor <b>392 px</b> <em>&mdash; bevel blur radius 4.5 units, needs 1.5 px</em></span>
+</section>
+<section class="card" id="gold-foil">
+  <header>
+    <h2>Gold foil</h2>
+    <span class="fam">Metal</span>
+    <a class="dl" href="svg/gold-foil.svg">gold-foil.svg</a>
+  </header>
+  <p class="blurb">Hot-foil stamp: a raking brass-to-amber ramp across the word, brushed with anisotropic noise — long horizontally, tight vertically — so it catches like rolled foil rather than sitting flat. The streaks are drawn in artwork units, so they shrink with the mark.</p>
+  <div class="shots"><figure class="shot" style="background:#1B2830;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Gold foil">
+  <defs><path id="gold-foil0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="gold-foil0-g" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0"   stop-color="#6E5222"/>
+      <stop offset=".2"  stop-color="#9C7C3C"/>
+      <stop offset=".38" stop-color="#F0DDA8"/>
+      <stop offset=".52" stop-color="#D9B36A"/>
+      <stop offset=".7"  stop-color="#8A6C31"/>
+      <stop offset=".85" stop-color="#E7CE94"/>
+      <stop offset="1"   stop-color="#9C7C3C"/>
+    </linearGradient>
+    <filter id="gold-foil0-f" x="-8%" y="-30%" width="116%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency=".006 .06" numOctaves="3" seed="11"
+                    result="n"/>
+      <feColorMatrix in="n" type="luminanceToAlpha" result="na"/>
+      <feComponentTransfer in="na" result="nb">
+        <feFuncA type="linear" slope="1.15" intercept="-.35"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#6B5220" result="dk"/>
+      <feComposite in="dk" in2="nb" operator="in" result="streak"/>
+      <feComposite in="streak" in2="SourceAlpha" operator="in" result="g2"/>
+      <feBlend in="SourceGraphic" in2="g2" mode="multiply" result="foil"/>
+      <feDropShadow in="foil" dx="0" dy="4" stdDeviation="4"
+                    flood-color="#000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+    <use href="#gold-foil0-p" fill="url(#gold-foil0-g)" filter="url(#gold-foil0-f)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#1B2830;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Gold foil">
+  <defs><path id="gold-foil1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="gold-foil1-g" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0"   stop-color="#6E5222"/>
+      <stop offset=".2"  stop-color="#9C7C3C"/>
+      <stop offset=".38" stop-color="#F0DDA8"/>
+      <stop offset=".52" stop-color="#D9B36A"/>
+      <stop offset=".7"  stop-color="#8A6C31"/>
+      <stop offset=".85" stop-color="#E7CE94"/>
+      <stop offset="1"   stop-color="#9C7C3C"/>
+    </linearGradient>
+    <filter id="gold-foil1-f" x="-8%" y="-30%" width="116%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency=".006 .06" numOctaves="3" seed="11"
+                    result="n"/>
+      <feColorMatrix in="n" type="luminanceToAlpha" result="na"/>
+      <feComponentTransfer in="na" result="nb">
+        <feFuncA type="linear" slope="1.15" intercept="-.35"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#6B5220" result="dk"/>
+      <feComposite in="dk" in2="nb" operator="in" result="streak"/>
+      <feComposite in="streak" in2="SourceAlpha" operator="in" result="g2"/>
+      <feBlend in="SourceGraphic" in2="g2" mode="multiply" result="foil"/>
+      <feDropShadow in="foil" dx="0" dy="4" stdDeviation="4"
+                    flood-color="#000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+    <use href="#gold-foil1-p" fill="url(#gold-foil1-g)" filter="url(#gold-foil1-f)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#1B2830;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Gold foil">
+  <defs><path id="gold-foil2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="gold-foil2-g" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0"   stop-color="#6E5222"/>
+      <stop offset=".2"  stop-color="#9C7C3C"/>
+      <stop offset=".38" stop-color="#F0DDA8"/>
+      <stop offset=".52" stop-color="#D9B36A"/>
+      <stop offset=".7"  stop-color="#8A6C31"/>
+      <stop offset=".85" stop-color="#E7CE94"/>
+      <stop offset="1"   stop-color="#9C7C3C"/>
+    </linearGradient>
+    <filter id="gold-foil2-f" x="-8%" y="-30%" width="116%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency=".006 .06" numOctaves="3" seed="11"
+                    result="n"/>
+      <feColorMatrix in="n" type="luminanceToAlpha" result="na"/>
+      <feComponentTransfer in="na" result="nb">
+        <feFuncA type="linear" slope="1.15" intercept="-.35"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#6B5220" result="dk"/>
+      <feComposite in="dk" in2="nb" operator="in" result="streak"/>
+      <feComposite in="streak" in2="SourceAlpha" operator="in" result="g2"/>
+      <feBlend in="SourceGraphic" in2="g2" mode="multiply" result="foil"/>
+      <feDropShadow in="foil" dx="0" dy="4" stdDeviation="4"
+                    flood-color="#000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+    <use href="#gold-foil2-p" fill="url(#gold-foil2-g)" filter="url(#gold-foil2-f)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gholds">Holds</span>Reads at any size, but stops being foil early — below the floor opposite it is simply a gold gradient.</p><span class="floor">Effect floor <b>141 px</b> <em>&mdash; brush-streak pitch 16.7 units, needs 2 px</em></span>
+</section>
+<section class="card" id="liquid">
+  <header>
+    <h2>Liquid</h2>
+    <span class="fam">Metal</span>
+    <a class="dl" href="svg/liquid.svg">liquid.svg</a>
+  </header>
+  <p class="blurb">Mercury: the same chrome idea with the horizon pushed low and the surface warped, so it reads as something poured rather than something stamped. Displacement is kept under the stem width, so the letters do not actually deform.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Liquid">
+  <defs><path id="liquid0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="liquid0-g" x1="0" y1="0" x2=".08" y2="1">
+      <stop offset="0"   stop-color="#FFFFFF"/>
+      <stop offset=".22" stop-color="#9CB2BE"/>
+      <stop offset=".46" stop-color="#DCE9EE"/>
+      <stop offset=".62" stop-color="#22323C"/>
+      <stop offset=".68" stop-color="#5D7784"/>
+      <stop offset=".82" stop-color="#EAF3F6"/>
+      <stop offset="1"   stop-color="#41545F"/>
+    </linearGradient>
+    <filter id="liquid0-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .05" numOctaves="2" seed="5"
+                    result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R"
+                         yChannelSelector="G" result="warp"/>
+      <feGaussianBlur in="warp" stdDeviation=".7" result="soft"/>
+      <feDropShadow in="soft" dx="0" dy="6" stdDeviation="6" flood-color="#000"
+                    flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <use href="#liquid0-p" fill="url(#liquid0-g)" filter="url(#liquid0-f)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Liquid">
+  <defs><path id="liquid1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="liquid1-g" x1="0" y1="0" x2=".08" y2="1">
+      <stop offset="0"   stop-color="#FFFFFF"/>
+      <stop offset=".22" stop-color="#9CB2BE"/>
+      <stop offset=".46" stop-color="#DCE9EE"/>
+      <stop offset=".62" stop-color="#22323C"/>
+      <stop offset=".68" stop-color="#5D7784"/>
+      <stop offset=".82" stop-color="#EAF3F6"/>
+      <stop offset="1"   stop-color="#41545F"/>
+    </linearGradient>
+    <filter id="liquid1-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .05" numOctaves="2" seed="5"
+                    result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R"
+                         yChannelSelector="G" result="warp"/>
+      <feGaussianBlur in="warp" stdDeviation=".7" result="soft"/>
+      <feDropShadow in="soft" dx="0" dy="6" stdDeviation="6" flood-color="#000"
+                    flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <use href="#liquid1-p" fill="url(#liquid1-g)" filter="url(#liquid1-f)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Liquid">
+  <defs><path id="liquid2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="liquid2-g" x1="0" y1="0" x2=".08" y2="1">
+      <stop offset="0"   stop-color="#FFFFFF"/>
+      <stop offset=".22" stop-color="#9CB2BE"/>
+      <stop offset=".46" stop-color="#DCE9EE"/>
+      <stop offset=".62" stop-color="#22323C"/>
+      <stop offset=".68" stop-color="#5D7784"/>
+      <stop offset=".82" stop-color="#EAF3F6"/>
+      <stop offset="1"   stop-color="#41545F"/>
+    </linearGradient>
+    <filter id="liquid2-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .05" numOctaves="2" seed="5"
+                    result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R"
+                         yChannelSelector="G" result="warp"/>
+      <feGaussianBlur in="warp" stdDeviation=".7" result="soft"/>
+      <feDropShadow in="soft" dx="0" dy="6" stdDeviation="6" flood-color="#000"
+                    flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <use href="#liquid2-p" fill="url(#liquid2-g)" filter="url(#liquid2-f)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gsoftens">Softens</span>Legible small, but the highlights bloom together and it stops reading as liquid — it just looks like a slightly damaged chrome.</p><span class="floor">Effect floor <b>196 px</b> <em>&mdash; displacement scale 9 units, needs 1.5 px</em></span>
+</section>
+<section class="card" id="chisel">
+  <header>
+    <h2>Chisel</h2>
+    <span class="fam">Cut</span>
+    <a class="dl" href="svg/chisel.svg">chisel.svg</a>
+  </header>
+  <p class="blurb">Bone cut into stone. Tight blur radius and a high specular exponent, so the bevel is a hard facet instead of a soft dome — the same language as the engraved skull plate, applied to type.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chisel">
+  <defs><path id="chisel0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="chisel0-f" x="-12%" y="-45%" width="124%" height="210%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="b"/>
+      <feDiffuseLighting in="b" surfaceScale="9" diffuseConstant="1" lighting-color="#A9BCC6"
+                         result="d">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feDiffuseLighting>
+      <feComposite in="d" in2="SourceAlpha" operator="in" result="d2"/>
+      <feComposite in="d2" in2="SourceGraphic" operator="arithmetic"
+                   k1="1.15" k2="0" k3="0" k4="0" result="body"/>
+      <feSpecularLighting in="b" surfaceScale="9" specularConstant="1.1" specularExponent="34"
+                          lighting-color="#F3FAFC" result="s">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="body" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#chisel0-p" fill="#C6D2D6" filter="url(#chisel0-f)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chisel">
+  <defs><path id="chisel1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="chisel1-f" x="-12%" y="-45%" width="124%" height="210%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="b"/>
+      <feDiffuseLighting in="b" surfaceScale="9" diffuseConstant="1" lighting-color="#A9BCC6"
+                         result="d">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feDiffuseLighting>
+      <feComposite in="d" in2="SourceAlpha" operator="in" result="d2"/>
+      <feComposite in="d2" in2="SourceGraphic" operator="arithmetic"
+                   k1="1.15" k2="0" k3="0" k4="0" result="body"/>
+      <feSpecularLighting in="b" surfaceScale="9" specularConstant="1.1" specularExponent="34"
+                          lighting-color="#F3FAFC" result="s">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="body" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#chisel1-p" fill="#C6D2D6" filter="url(#chisel1-f)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chisel">
+  <defs><path id="chisel2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="chisel2-f" x="-12%" y="-45%" width="124%" height="210%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="b"/>
+      <feDiffuseLighting in="b" surfaceScale="9" diffuseConstant="1" lighting-color="#A9BCC6"
+                         result="d">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feDiffuseLighting>
+      <feComposite in="d" in2="SourceAlpha" operator="in" result="d2"/>
+      <feComposite in="d2" in2="SourceGraphic" operator="arithmetic"
+                   k1="1.15" k2="0" k3="0" k4="0" result="body"/>
+      <feSpecularLighting in="b" surfaceScale="9" specularConstant="1.1" specularExponent="34"
+                          lighting-color="#F3FAFC" result="s">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="body" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#chisel2-p" fill="#C6D2D6" filter="url(#chisel2-f)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gsoftens">Softens</span>The weakest small performer that still reads. The diffuse pass dims the fill below Bone and there is no keyline, so at 96 px it goes grey against Ink rather than crisp.</p><span class="floor">Effect floor <b>678 px</b> <em>&mdash; facet blur radius 2.6 units, needs 1.5 px</em></span>
+</section>
+<section class="card" id="deboss">
+  <header>
+    <h2>Deboss</h2>
+    <span class="fam">Cut</span>
+    <a class="dl" href="svg/deboss.svg">deboss.svg</a>
+  </header>
+  <p class="blurb">The one light-ground treatment: the word pressed *into* Paper. Dark inner edge top-left, white inner edge bottom-right, no ink at all. Blind-embossed stock, letterhead, a sleeve back.</p>
+  <div class="shots"><figure class="shot" style="background:#F2F1EE;color:#42525C"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Deboss">
+  <defs><path id="deboss0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="deboss0-f" x="-14%" y="-45%" width="128%" height="210%">
+      <feComponentTransfer in="SourceAlpha" result="inv">
+        <feFuncA type="table" tableValues="1 0"/>
+      </feComponentTransfer>
+      <feOffset in="inv" dx="3.5" dy="3.5" result="o1"/>
+      <feGaussianBlur in="o1" stdDeviation="3.2" result="b1"/>
+      <feComposite in="b1" in2="SourceAlpha" operator="in" result="m1"/>
+      <feFlood flood-color="#6B6960" flood-opacity=".9" result="c1"/>
+      <feComposite in="c1" in2="m1" operator="in" result="sh1"/>
+      <feOffset in="inv" dx="-3.5" dy="-3.5" result="o2"/>
+      <feGaussianBlur in="o2" stdDeviation="3.2" result="b2"/>
+      <feComposite in="b2" in2="SourceAlpha" operator="in" result="m2"/>
+      <feFlood flood-color="#FFFFFF" flood-opacity="1" result="c2"/>
+      <feComposite in="c2" in2="m2" operator="in" result="sh2"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="sh2"/>
+        <feMergeNode in="sh1"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#deboss0-p" fill="#EDEBE5" filter="url(#deboss0-f)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#F2F1EE;color:#42525C"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Deboss">
+  <defs><path id="deboss1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="deboss1-f" x="-14%" y="-45%" width="128%" height="210%">
+      <feComponentTransfer in="SourceAlpha" result="inv">
+        <feFuncA type="table" tableValues="1 0"/>
+      </feComponentTransfer>
+      <feOffset in="inv" dx="3.5" dy="3.5" result="o1"/>
+      <feGaussianBlur in="o1" stdDeviation="3.2" result="b1"/>
+      <feComposite in="b1" in2="SourceAlpha" operator="in" result="m1"/>
+      <feFlood flood-color="#6B6960" flood-opacity=".9" result="c1"/>
+      <feComposite in="c1" in2="m1" operator="in" result="sh1"/>
+      <feOffset in="inv" dx="-3.5" dy="-3.5" result="o2"/>
+      <feGaussianBlur in="o2" stdDeviation="3.2" result="b2"/>
+      <feComposite in="b2" in2="SourceAlpha" operator="in" result="m2"/>
+      <feFlood flood-color="#FFFFFF" flood-opacity="1" result="c2"/>
+      <feComposite in="c2" in2="m2" operator="in" result="sh2"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="sh2"/>
+        <feMergeNode in="sh1"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#deboss1-p" fill="#EDEBE5" filter="url(#deboss1-f)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#F2F1EE;color:#42525C"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Deboss">
+  <defs><path id="deboss2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="deboss2-f" x="-14%" y="-45%" width="128%" height="210%">
+      <feComponentTransfer in="SourceAlpha" result="inv">
+        <feFuncA type="table" tableValues="1 0"/>
+      </feComponentTransfer>
+      <feOffset in="inv" dx="3.5" dy="3.5" result="o1"/>
+      <feGaussianBlur in="o1" stdDeviation="3.2" result="b1"/>
+      <feComposite in="b1" in2="SourceAlpha" operator="in" result="m1"/>
+      <feFlood flood-color="#6B6960" flood-opacity=".9" result="c1"/>
+      <feComposite in="c1" in2="m1" operator="in" result="sh1"/>
+      <feOffset in="inv" dx="-3.5" dy="-3.5" result="o2"/>
+      <feGaussianBlur in="o2" stdDeviation="3.2" result="b2"/>
+      <feComposite in="b2" in2="SourceAlpha" operator="in" result="m2"/>
+      <feFlood flood-color="#FFFFFF" flood-opacity="1" result="c2"/>
+      <feComposite in="c2" in2="m2" operator="in" result="sh2"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="sh2"/>
+        <feMergeNode in="sh1"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#deboss2-p" fill="#EDEBE5" filter="url(#deboss2-f)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gfails">Fails</span>There is no ink here at all — the whole mark is a 3.5-unit shadow. Below the floor opposite, the page is blank. Big and physical only.</p><span class="floor">Effect floor <b>336 px</b> <em>&mdash; inner-shadow offset 3.5 units, needs 1 px</em></span>
+</section>
+<section class="card" id="punched-plate">
+  <header>
+    <h2>Punched plate</h2>
+    <span class="fam">Cut</span>
+    <a class="dl" href="svg/punched-plate.svg">punched-plate.svg</a>
+  </header>
+  <p class="blurb">Inverted: the word is the hole. A brushed Steel panel with APEZONE milled clean through it, the recess showing Ink and the panel casting down into it. The counters become islands — which is where you find out whether the P and the O survive.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="-70 -682.942 1315.52 282.223" role="img" aria-label="APEZONE — Punched plate">
+  <defs><path id="punched-plate0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="punched-plate0-g" x1="0" y1="0" x2=".25" y2="1">
+      <stop offset="0"   stop-color="#5A7181"/>
+      <stop offset=".35" stop-color="#3F5260"/>
+      <stop offset=".55" stop-color="#4A5F6E"/>
+      <stop offset="1"   stop-color="#2C3B45"/>
+    </linearGradient>
+    <mask id="punched-plate0-m">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="#fff"/>
+      <use href="#punched-plate0-p" fill="#000"/>
+    </mask>
+    <filter id="punched-plate0-f" x="-10%" y="-30%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#000" flood-opacity=".85"/>
+    </filter>
+  </defs>
+    <rect x="-70" y="-682.942" width="1315.52"
+          height="282.223" fill="#060B0E"/>
+    <g filter="url(#punched-plate0-f)">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="url(#punched-plate0-g)" mask="url(#punched-plate0-m)"/>
+    </g>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="-70 -682.942 1315.52 282.223" role="img" aria-label="APEZONE — Punched plate">
+  <defs><path id="punched-plate1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="punched-plate1-g" x1="0" y1="0" x2=".25" y2="1">
+      <stop offset="0"   stop-color="#5A7181"/>
+      <stop offset=".35" stop-color="#3F5260"/>
+      <stop offset=".55" stop-color="#4A5F6E"/>
+      <stop offset="1"   stop-color="#2C3B45"/>
+    </linearGradient>
+    <mask id="punched-plate1-m">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="#fff"/>
+      <use href="#punched-plate1-p" fill="#000"/>
+    </mask>
+    <filter id="punched-plate1-f" x="-10%" y="-30%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#000" flood-opacity=".85"/>
+    </filter>
+  </defs>
+    <rect x="-70" y="-682.942" width="1315.52"
+          height="282.223" fill="#060B0E"/>
+    <g filter="url(#punched-plate1-f)">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="url(#punched-plate1-g)" mask="url(#punched-plate1-m)"/>
+    </g>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="-70 -682.942 1315.52 282.223" role="img" aria-label="APEZONE — Punched plate">
+  <defs><path id="punched-plate2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="punched-plate2-g" x1="0" y1="0" x2=".25" y2="1">
+      <stop offset="0"   stop-color="#5A7181"/>
+      <stop offset=".35" stop-color="#3F5260"/>
+      <stop offset=".55" stop-color="#4A5F6E"/>
+      <stop offset="1"   stop-color="#2C3B45"/>
+    </linearGradient>
+    <mask id="punched-plate2-m">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="#fff"/>
+      <use href="#punched-plate2-p" fill="#000"/>
+    </mask>
+    <filter id="punched-plate2-f" x="-10%" y="-30%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#000" flood-opacity=".85"/>
+    </filter>
+  </defs>
+    <rect x="-70" y="-682.942" width="1315.52"
+          height="282.223" fill="#060B0E"/>
+    <g filter="url(#punched-plate2-f)">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="url(#punched-plate2-g)" mask="url(#punched-plate2-m)"/>
+    </g>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gholds">Holds</span>Better small than it has any right to be, because the plate gives it a hard rectangular ground the letterforms can sit against. The counters close first — watch the P.</p><span class="floor">Effect floor <b>168 px</b> <em>&mdash; recess shadow offset 7 units, needs 1 px</em></span>
+</section>
+<section class="card" id="extrude">
+  <header>
+    <h2>Extrude</h2>
+    <span class="fam">Dimensional</span>
+    <a class="dl" href="svg/extrude.svg">extrude.svg</a>
+  </header>
+  <p class="blurb">Thirty stacked copies stepping down and right into Steel, Bone face on top. A solid block letter cut from one piece — the depth reads even when the face is small, because the extrusion is mass rather than detail.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -638.942 1175.52 194.223" role="img" aria-label="APEZONE — Extrude">
+  <defs><path id="extrude0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+  </defs>
+    <g>
+      <use href="#extrude0-p" transform="translate(27.00,27.00)" fill="rgb(27,40,48)"/>
+      <use href="#extrude0-p" transform="translate(26.10,26.10)" fill="rgb(28,41,50)"/>
+      <use href="#extrude0-p" transform="translate(25.20,25.20)" fill="rgb(29,43,51)"/>
+      <use href="#extrude0-p" transform="translate(24.30,24.30)" fill="rgb(31,44,53)"/>
+      <use href="#extrude0-p" transform="translate(23.40,23.40)" fill="rgb(32,46,54)"/>
+      <use href="#extrude0-p" transform="translate(22.50,22.50)" fill="rgb(33,47,56)"/>
+      <use href="#extrude0-p" transform="translate(21.60,21.60)" fill="rgb(34,48,58)"/>
+      <use href="#extrude0-p" transform="translate(20.70,20.70)" fill="rgb(35,50,59)"/>
+      <use href="#extrude0-p" transform="translate(19.80,19.80)" fill="rgb(37,51,61)"/>
+      <use href="#extrude0-p" transform="translate(18.90,18.90)" fill="rgb(38,53,62)"/>
+      <use href="#extrude0-p" transform="translate(18.00,18.00)" fill="rgb(39,54,64)"/>
+      <use href="#extrude0-p" transform="translate(17.10,17.10)" fill="rgb(40,55,66)"/>
+      <use href="#extrude0-p" transform="translate(16.20,16.20)" fill="rgb(41,57,67)"/>
+      <use href="#extrude0-p" transform="translate(15.30,15.30)" fill="rgb(43,58,69)"/>
+      <use href="#extrude0-p" transform="translate(14.40,14.40)" fill="rgb(44,60,70)"/>
+      <use href="#extrude0-p" transform="translate(13.50,13.50)" fill="rgb(45,61,72)"/>
+      <use href="#extrude0-p" transform="translate(12.60,12.60)" fill="rgb(46,62,74)"/>
+      <use href="#extrude0-p" transform="translate(11.70,11.70)" fill="rgb(47,64,75)"/>
+      <use href="#extrude0-p" transform="translate(10.80,10.80)" fill="rgb(49,65,77)"/>
+      <use href="#extrude0-p" transform="translate(9.90,9.90)" fill="rgb(50,67,78)"/>
+      <use href="#extrude0-p" transform="translate(9.00,9.00)" fill="rgb(51,68,80)"/>
+      <use href="#extrude0-p" transform="translate(8.10,8.10)" fill="rgb(52,69,82)"/>
+      <use href="#extrude0-p" transform="translate(7.20,7.20)" fill="rgb(53,71,83)"/>
+      <use href="#extrude0-p" transform="translate(6.30,6.30)" fill="rgb(55,72,85)"/>
+      <use href="#extrude0-p" transform="translate(5.40,5.40)" fill="rgb(56,74,86)"/>
+      <use href="#extrude0-p" transform="translate(4.50,4.50)" fill="rgb(57,75,88)"/>
+      <use href="#extrude0-p" transform="translate(3.60,3.60)" fill="rgb(58,76,90)"/>
+      <use href="#extrude0-p" transform="translate(2.70,2.70)" fill="rgb(59,78,91)"/>
+      <use href="#extrude0-p" transform="translate(1.80,1.80)" fill="rgb(61,79,93)"/>
+      <use href="#extrude0-p" transform="translate(0.90,0.90)" fill="rgb(62,81,94)"/>
+      <use href="#extrude0-p" fill="#C6D2D6"/>
+    </g>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -638.942 1175.52 194.223" role="img" aria-label="APEZONE — Extrude">
+  <defs><path id="extrude1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+  </defs>
+    <g>
+      <use href="#extrude1-p" transform="translate(27.00,27.00)" fill="rgb(27,40,48)"/>
+      <use href="#extrude1-p" transform="translate(26.10,26.10)" fill="rgb(28,41,50)"/>
+      <use href="#extrude1-p" transform="translate(25.20,25.20)" fill="rgb(29,43,51)"/>
+      <use href="#extrude1-p" transform="translate(24.30,24.30)" fill="rgb(31,44,53)"/>
+      <use href="#extrude1-p" transform="translate(23.40,23.40)" fill="rgb(32,46,54)"/>
+      <use href="#extrude1-p" transform="translate(22.50,22.50)" fill="rgb(33,47,56)"/>
+      <use href="#extrude1-p" transform="translate(21.60,21.60)" fill="rgb(34,48,58)"/>
+      <use href="#extrude1-p" transform="translate(20.70,20.70)" fill="rgb(35,50,59)"/>
+      <use href="#extrude1-p" transform="translate(19.80,19.80)" fill="rgb(37,51,61)"/>
+      <use href="#extrude1-p" transform="translate(18.90,18.90)" fill="rgb(38,53,62)"/>
+      <use href="#extrude1-p" transform="translate(18.00,18.00)" fill="rgb(39,54,64)"/>
+      <use href="#extrude1-p" transform="translate(17.10,17.10)" fill="rgb(40,55,66)"/>
+      <use href="#extrude1-p" transform="translate(16.20,16.20)" fill="rgb(41,57,67)"/>
+      <use href="#extrude1-p" transform="translate(15.30,15.30)" fill="rgb(43,58,69)"/>
+      <use href="#extrude1-p" transform="translate(14.40,14.40)" fill="rgb(44,60,70)"/>
+      <use href="#extrude1-p" transform="translate(13.50,13.50)" fill="rgb(45,61,72)"/>
+      <use href="#extrude1-p" transform="translate(12.60,12.60)" fill="rgb(46,62,74)"/>
+      <use href="#extrude1-p" transform="translate(11.70,11.70)" fill="rgb(47,64,75)"/>
+      <use href="#extrude1-p" transform="translate(10.80,10.80)" fill="rgb(49,65,77)"/>
+      <use href="#extrude1-p" transform="translate(9.90,9.90)" fill="rgb(50,67,78)"/>
+      <use href="#extrude1-p" transform="translate(9.00,9.00)" fill="rgb(51,68,80)"/>
+      <use href="#extrude1-p" transform="translate(8.10,8.10)" fill="rgb(52,69,82)"/>
+      <use href="#extrude1-p" transform="translate(7.20,7.20)" fill="rgb(53,71,83)"/>
+      <use href="#extrude1-p" transform="translate(6.30,6.30)" fill="rgb(55,72,85)"/>
+      <use href="#extrude1-p" transform="translate(5.40,5.40)" fill="rgb(56,74,86)"/>
+      <use href="#extrude1-p" transform="translate(4.50,4.50)" fill="rgb(57,75,88)"/>
+      <use href="#extrude1-p" transform="translate(3.60,3.60)" fill="rgb(58,76,90)"/>
+      <use href="#extrude1-p" transform="translate(2.70,2.70)" fill="rgb(59,78,91)"/>
+      <use href="#extrude1-p" transform="translate(1.80,1.80)" fill="rgb(61,79,93)"/>
+      <use href="#extrude1-p" transform="translate(0.90,0.90)" fill="rgb(62,81,94)"/>
+      <use href="#extrude1-p" fill="#C6D2D6"/>
+    </g>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -638.942 1175.52 194.223" role="img" aria-label="APEZONE — Extrude">
+  <defs><path id="extrude2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+  </defs>
+    <g>
+      <use href="#extrude2-p" transform="translate(27.00,27.00)" fill="rgb(27,40,48)"/>
+      <use href="#extrude2-p" transform="translate(26.10,26.10)" fill="rgb(28,41,50)"/>
+      <use href="#extrude2-p" transform="translate(25.20,25.20)" fill="rgb(29,43,51)"/>
+      <use href="#extrude2-p" transform="translate(24.30,24.30)" fill="rgb(31,44,53)"/>
+      <use href="#extrude2-p" transform="translate(23.40,23.40)" fill="rgb(32,46,54)"/>
+      <use href="#extrude2-p" transform="translate(22.50,22.50)" fill="rgb(33,47,56)"/>
+      <use href="#extrude2-p" transform="translate(21.60,21.60)" fill="rgb(34,48,58)"/>
+      <use href="#extrude2-p" transform="translate(20.70,20.70)" fill="rgb(35,50,59)"/>
+      <use href="#extrude2-p" transform="translate(19.80,19.80)" fill="rgb(37,51,61)"/>
+      <use href="#extrude2-p" transform="translate(18.90,18.90)" fill="rgb(38,53,62)"/>
+      <use href="#extrude2-p" transform="translate(18.00,18.00)" fill="rgb(39,54,64)"/>
+      <use href="#extrude2-p" transform="translate(17.10,17.10)" fill="rgb(40,55,66)"/>
+      <use href="#extrude2-p" transform="translate(16.20,16.20)" fill="rgb(41,57,67)"/>
+      <use href="#extrude2-p" transform="translate(15.30,15.30)" fill="rgb(43,58,69)"/>
+      <use href="#extrude2-p" transform="translate(14.40,14.40)" fill="rgb(44,60,70)"/>
+      <use href="#extrude2-p" transform="translate(13.50,13.50)" fill="rgb(45,61,72)"/>
+      <use href="#extrude2-p" transform="translate(12.60,12.60)" fill="rgb(46,62,74)"/>
+      <use href="#extrude2-p" transform="translate(11.70,11.70)" fill="rgb(47,64,75)"/>
+      <use href="#extrude2-p" transform="translate(10.80,10.80)" fill="rgb(49,65,77)"/>
+      <use href="#extrude2-p" transform="translate(9.90,9.90)" fill="rgb(50,67,78)"/>
+      <use href="#extrude2-p" transform="translate(9.00,9.00)" fill="rgb(51,68,80)"/>
+      <use href="#extrude2-p" transform="translate(8.10,8.10)" fill="rgb(52,69,82)"/>
+      <use href="#extrude2-p" transform="translate(7.20,7.20)" fill="rgb(53,71,83)"/>
+      <use href="#extrude2-p" transform="translate(6.30,6.30)" fill="rgb(55,72,85)"/>
+      <use href="#extrude2-p" transform="translate(5.40,5.40)" fill="rgb(56,74,86)"/>
+      <use href="#extrude2-p" transform="translate(4.50,4.50)" fill="rgb(57,75,88)"/>
+      <use href="#extrude2-p" transform="translate(3.60,3.60)" fill="rgb(58,76,90)"/>
+      <use href="#extrude2-p" transform="translate(2.70,2.70)" fill="rgb(59,78,91)"/>
+      <use href="#extrude2-p" transform="translate(1.80,1.80)" fill="rgb(61,79,93)"/>
+      <use href="#extrude2-p" transform="translate(0.90,0.90)" fill="rgb(62,81,94)"/>
+      <use href="#extrude2-p" fill="#C6D2D6"/>
+    </g>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gholds">Holds</span>Depth is mass, not detail, so it is the one dimensional treatment that loses nothing on the way down.</p><span class="floor">Effect floor <b>87 px</b> <em>&mdash; total extrusion depth 27 units, needs 2 px</em></span>
+</section>
+<section class="card" id="neon">
+  <header>
+    <h2>Neon</h2>
+    <span class="fam">Light</span>
+    <a class="dl" href="svg/neon.svg">neon.svg</a>
+  </header>
+  <p class="blurb">Lamp Amber bent into tube and traced around the letter contours — including the counters, which is what a real sign maker would do. Four passes: wide haze, soft glow, the tube itself, and a hot white core.</p>
+  <div class="shots"><figure class="shot" style="background:#05090C;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="-46 -666.942 1267.52 250.223" role="img" aria-label="APEZONE — Neon">
+  <defs><path id="neon0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <radialGradient id="neon0-halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0"  stop-color="#9C7C3C" stop-opacity=".38"/>
+      <stop offset="1"  stop-color="#9C7C3C" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="neon0-b1" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <filter id="neon0-b2" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="neon0-b3" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+  </defs>
+    <rect x="-46" y="-666.942" width="1267.52" height="250.223"
+          fill="url(#neon0-halo)"/>
+    <use href="#neon0-p" fill="none" stroke="#9C7C3C" stroke-width="30" stroke-linejoin="round"
+         opacity=".55" filter="url(#neon0-b1)"/>
+    <use href="#neon0-p" fill="none" stroke="#D9B36A" stroke-width="15" stroke-linejoin="round"
+         opacity=".7" filter="url(#neon0-b2)"/>
+    <use href="#neon0-p" fill="none" stroke="#D9B36A" stroke-width="7" stroke-linejoin="round"
+         filter="url(#neon0-b3)"/>
+    <use href="#neon0-p" fill="none" stroke="#FFF6E2" stroke-width="2.6" stroke-linejoin="round"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#05090C;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="-46 -666.942 1267.52 250.223" role="img" aria-label="APEZONE — Neon">
+  <defs><path id="neon1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <radialGradient id="neon1-halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0"  stop-color="#9C7C3C" stop-opacity=".38"/>
+      <stop offset="1"  stop-color="#9C7C3C" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="neon1-b1" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <filter id="neon1-b2" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="neon1-b3" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+  </defs>
+    <rect x="-46" y="-666.942" width="1267.52" height="250.223"
+          fill="url(#neon1-halo)"/>
+    <use href="#neon1-p" fill="none" stroke="#9C7C3C" stroke-width="30" stroke-linejoin="round"
+         opacity=".55" filter="url(#neon1-b1)"/>
+    <use href="#neon1-p" fill="none" stroke="#D9B36A" stroke-width="15" stroke-linejoin="round"
+         opacity=".7" filter="url(#neon1-b2)"/>
+    <use href="#neon1-p" fill="none" stroke="#D9B36A" stroke-width="7" stroke-linejoin="round"
+         filter="url(#neon1-b3)"/>
+    <use href="#neon1-p" fill="none" stroke="#FFF6E2" stroke-width="2.6" stroke-linejoin="round"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#05090C;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="-46 -666.942 1267.52 250.223" role="img" aria-label="APEZONE — Neon">
+  <defs><path id="neon2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <radialGradient id="neon2-halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0"  stop-color="#9C7C3C" stop-opacity=".38"/>
+      <stop offset="1"  stop-color="#9C7C3C" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="neon2-b1" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <filter id="neon2-b2" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="neon2-b3" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+  </defs>
+    <rect x="-46" y="-666.942" width="1267.52" height="250.223"
+          fill="url(#neon2-halo)"/>
+    <use href="#neon2-p" fill="none" stroke="#9C7C3C" stroke-width="30" stroke-linejoin="round"
+         opacity=".55" filter="url(#neon2-b1)"/>
+    <use href="#neon2-p" fill="none" stroke="#D9B36A" stroke-width="15" stroke-linejoin="round"
+         opacity=".7" filter="url(#neon2-b2)"/>
+    <use href="#neon2-p" fill="none" stroke="#D9B36A" stroke-width="7" stroke-linejoin="round"
+         filter="url(#neon2-b3)"/>
+    <use href="#neon2-p" fill="none" stroke="#FFF6E2" stroke-width="2.6" stroke-linejoin="round"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gsoftens">Softens</span>Fine at 180 px and up. At 96 the haze floods the counters and the tube is a hairline — it reads as a warm smudge, not a word.</p><span class="floor">Effect floor <b>336 px</b> <em>&mdash; tube stroke 7 units, needs 2 px</em></span>
+</section>
+<section class="card" id="cold-glow">
+  <header>
+    <h2>Cold glow</h2>
+    <span class="fam">Light</span>
+    <a class="dl" href="svg/cold-glow.svg">cold-glow.svg</a>
+  </header>
+  <p class="blurb">Solid Bone with the light coming off it rather than a tube outline — the mark still reads as a filled wordmark first, lit second. The restrained end of the light family, and the one that would survive a dark website header.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="-40 -660.942 1255.52 238.223" role="img" aria-label="APEZONE — Cold glow">
+  <defs><path id="cold-glow0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="cold-glow0-f" x="-16%" y="-60%" width="132%" height="220%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="16" result="g1"/>
+      <feFlood flood-color="#8FD3EA" flood-opacity=".55" result="c1"/>
+      <feComposite in="c1" in2="g1" operator="in" result="halo"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="g2"/>
+      <feFlood flood-color="#CFE9F3" flood-opacity=".75" result="c2"/>
+      <feComposite in="c2" in2="g2" operator="in" result="near"/>
+      <feMerge>
+        <feMergeNode in="halo"/>
+        <feMergeNode in="near"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#cold-glow0-p" fill="#EAF4F8" filter="url(#cold-glow0-f)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="-40 -660.942 1255.52 238.223" role="img" aria-label="APEZONE — Cold glow">
+  <defs><path id="cold-glow1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="cold-glow1-f" x="-16%" y="-60%" width="132%" height="220%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="16" result="g1"/>
+      <feFlood flood-color="#8FD3EA" flood-opacity=".55" result="c1"/>
+      <feComposite in="c1" in2="g1" operator="in" result="halo"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="g2"/>
+      <feFlood flood-color="#CFE9F3" flood-opacity=".75" result="c2"/>
+      <feComposite in="c2" in2="g2" operator="in" result="near"/>
+      <feMerge>
+        <feMergeNode in="halo"/>
+        <feMergeNode in="near"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#cold-glow1-p" fill="#EAF4F8" filter="url(#cold-glow1-f)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="-40 -660.942 1255.52 238.223" role="img" aria-label="APEZONE — Cold glow">
+  <defs><path id="cold-glow2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="cold-glow2-f" x="-16%" y="-60%" width="132%" height="220%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="16" result="g1"/>
+      <feFlood flood-color="#8FD3EA" flood-opacity=".55" result="c1"/>
+      <feComposite in="c1" in2="g1" operator="in" result="halo"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="g2"/>
+      <feFlood flood-color="#CFE9F3" flood-opacity=".75" result="c2"/>
+      <feComposite in="c2" in2="g2" operator="in" result="near"/>
+      <feMerge>
+        <feMergeNode in="halo"/>
+        <feMergeNode in="near"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#cold-glow2-p" fill="#EAF4F8" filter="url(#cold-glow2-f)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gholds">Holds</span>Solid fill underneath, so the worst case at any size is a slightly hazy wordmark. The safest way to get light into this mark.</p><span class="floor">Effect floor <b>353 px</b> <em>&mdash; near-glow radius 5 units, needs 1.5 px</em></span>
+</section>
+<section class="card" id="engraved-hatch">
+  <header>
+    <h2>Engraved hatch</h2>
+    <span class="fam">Screened</span>
+    <a class="dl" href="svg/engraved-hatch.svg">engraved-hatch.svg</a>
+  </header>
+  <p class="blurb">Filled with the same diagonal hairline hatching the large-format skull plate uses to get its material, plus a hairline keyline so the silhouette holds when the hatching stops resolving.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Engraved hatch">
+  <defs><path id="engraved-hatch0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="engraved-hatch0-pat" width="15" height="15" patternUnits="userSpaceOnUse"
+             patternTransform="rotate(38)">
+      <rect width="15" height="15" fill="#0A1116"/>
+      <rect x="0" y="0" width="5.2" height="15" fill="#C6D2D6"/>
+    </pattern>
+  </defs>
+    <use href="#engraved-hatch0-p" fill="url(#engraved-hatch0-pat)"/>
+    <use href="#engraved-hatch0-p" fill="none" stroke="#C6D2D6" stroke-width="3.2" stroke-linejoin="round"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Engraved hatch">
+  <defs><path id="engraved-hatch1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="engraved-hatch1-pat" width="15" height="15" patternUnits="userSpaceOnUse"
+             patternTransform="rotate(38)">
+      <rect width="15" height="15" fill="#0A1116"/>
+      <rect x="0" y="0" width="5.2" height="15" fill="#C6D2D6"/>
+    </pattern>
+  </defs>
+    <use href="#engraved-hatch1-p" fill="url(#engraved-hatch1-pat)"/>
+    <use href="#engraved-hatch1-p" fill="none" stroke="#C6D2D6" stroke-width="3.2" stroke-linejoin="round"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Engraved hatch">
+  <defs><path id="engraved-hatch2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="engraved-hatch2-pat" width="15" height="15" patternUnits="userSpaceOnUse"
+             patternTransform="rotate(38)">
+      <rect width="15" height="15" fill="#0A1116"/>
+      <rect x="0" y="0" width="5.2" height="15" fill="#C6D2D6"/>
+    </pattern>
+  </defs>
+    <use href="#engraved-hatch2-p" fill="url(#engraved-hatch2-pat)"/>
+    <use href="#engraved-hatch2-p" fill="none" stroke="#C6D2D6" stroke-width="3.2" stroke-linejoin="round"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gfails">Fails</span>The worst reducer here. Below the floor opposite the hatch averages to a flat grey, leaving a 3.2-unit keyline to carry the whole mark — and that is under a pixel by 96 px. Poster only.</p><span class="floor">Effect floor <b>235 px</b> <em>&mdash; hatch pitch 15 units, needs 3 px</em></span>
+</section>
+<section class="card" id="halftone">
+  <header>
+    <h2>Halftone fade</h2>
+    <span class="fam">Screened</span>
+    <a class="dl" href="svg/halftone.svg">halftone.svg</a>
+  </header>
+  <p class="blurb">Solid Bone at the cap line dissolving into a dot screen by the baseline. Print decay, cheap photocopy, a screen that ran out of ink — and the counters stay open because the dissolve only touches the bottom third.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Halftone fade">
+  <defs><path id="halftone0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="halftone0-dots" width="17" height="17" patternUnits="userSpaceOnUse">
+      <circle cx="4.2" cy="4.2" r="3.3" fill="#C6D2D6"/>
+      <circle cx="12.7" cy="12.7" r="3.3" fill="#C6D2D6"/>
+    </pattern>
+    <linearGradient id="halftone0-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".42" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".95" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="halftone0-fm">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftone0-fade)"/>
+    </mask>
+    <clipPath id="halftone0-c"><use href="#halftone0-p" clip-rule="evenodd"/></clipPath>
+  </defs>
+    <g clip-path="url(#halftone0-c)">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftone0-dots)"/>
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="#C6D2D6"
+            mask="url(#halftone0-fm)"/>
+    </g>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Halftone fade">
+  <defs><path id="halftone1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="halftone1-dots" width="17" height="17" patternUnits="userSpaceOnUse">
+      <circle cx="4.2" cy="4.2" r="3.3" fill="#C6D2D6"/>
+      <circle cx="12.7" cy="12.7" r="3.3" fill="#C6D2D6"/>
+    </pattern>
+    <linearGradient id="halftone1-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".42" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".95" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="halftone1-fm">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftone1-fade)"/>
+    </mask>
+    <clipPath id="halftone1-c"><use href="#halftone1-p" clip-rule="evenodd"/></clipPath>
+  </defs>
+    <g clip-path="url(#halftone1-c)">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftone1-dots)"/>
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="#C6D2D6"
+            mask="url(#halftone1-fm)"/>
+    </g>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Halftone fade">
+  <defs><path id="halftone2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="halftone2-dots" width="17" height="17" patternUnits="userSpaceOnUse">
+      <circle cx="4.2" cy="4.2" r="3.3" fill="#C6D2D6"/>
+      <circle cx="12.7" cy="12.7" r="3.3" fill="#C6D2D6"/>
+    </pattern>
+    <linearGradient id="halftone2-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".42" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".95" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="halftone2-fm">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftone2-fade)"/>
+    </mask>
+    <clipPath id="halftone2-c"><use href="#halftone2-p" clip-rule="evenodd"/></clipPath>
+  </defs>
+    <g clip-path="url(#halftone2-c)">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftone2-dots)"/>
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="#C6D2D6"
+            mask="url(#halftone2-fm)"/>
+    </g>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gholds">Holds</span>Degrades gracefully: the dots blur into a soft lower edge rather than to mush, because the top 42% is solid and does the reading.</p><span class="floor">Effect floor <b>207 px</b> <em>&mdash; dot pitch 17 units, needs 3 px</em></span>
+</section>
+<section class="card" id="signal-loss">
+  <header>
+    <h2>Signal loss</h2>
+    <span class="fam">Screened</span>
+    <a class="dl" href="svg/signal-loss.svg">signal-loss.svg</a>
+  </header>
+  <p class="blurb">Channel split into the palette's two hues — cold 201° left, Brass 40° right — then sliced into three bands that don't agree on where the word is, and scanlined. No red, which is the only reason this one is even arguable.</p>
+  <div class="shots"><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Signal loss">
+  <defs><path id="signal-loss0-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <clipPath id="signal-loss0-c1"><rect x="-30" y="-620.942" width="1235.52"
+      height="53.7958"/></clipPath>
+    <clipPath id="signal-loss0-c2"><rect x="-30" y="-567.146" width="1235.52"
+      height="37.9735"/></clipPath>
+    <clipPath id="signal-loss0-c3"><rect x="-30" y="-529.173" width="1235.52"
+      height="66.4537"/></clipPath>
+    <pattern id="signal-loss0-scan" width="9" height="9" patternUnits="userSpaceOnUse">
+      <rect width="9" height="4.4" fill="#0A1116" opacity=".62"/>
+    </pattern>
+  </defs>
+    <g clip-path="url(#signal-loss0-c1)"><g transform="translate(0,0)"><use href="#signal-loss0-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss0-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss0-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-loss0-c2)"><g transform="translate(-17,0)"><use href="#signal-loss0-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss0-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss0-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-loss0-c3)"><g transform="translate(7,0)"><use href="#signal-loss0-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss0-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss0-p" fill="#C6D2D6"/></g></g>
+    <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#signal-loss0-scan)"/>
+</svg><figcaption>560 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Signal loss">
+  <defs><path id="signal-loss1-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <clipPath id="signal-loss1-c1"><rect x="-30" y="-620.942" width="1235.52"
+      height="53.7958"/></clipPath>
+    <clipPath id="signal-loss1-c2"><rect x="-30" y="-567.146" width="1235.52"
+      height="37.9735"/></clipPath>
+    <clipPath id="signal-loss1-c3"><rect x="-30" y="-529.173" width="1235.52"
+      height="66.4537"/></clipPath>
+    <pattern id="signal-loss1-scan" width="9" height="9" patternUnits="userSpaceOnUse">
+      <rect width="9" height="4.4" fill="#0A1116" opacity=".62"/>
+    </pattern>
+  </defs>
+    <g clip-path="url(#signal-loss1-c1)"><g transform="translate(0,0)"><use href="#signal-loss1-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss1-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss1-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-loss1-c2)"><g transform="translate(-17,0)"><use href="#signal-loss1-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss1-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss1-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-loss1-c3)"><g transform="translate(7,0)"><use href="#signal-loss1-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss1-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss1-p" fill="#C6D2D6"/></g></g>
+    <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#signal-loss1-scan)"/>
+</svg><figcaption>180 px</figcaption></figure><figure class="shot" style="background:#0A1116;color:#8A9AA3"><svg width="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Signal loss">
+  <defs><path id="signal-loss2-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <clipPath id="signal-loss2-c1"><rect x="-30" y="-620.942" width="1235.52"
+      height="53.7958"/></clipPath>
+    <clipPath id="signal-loss2-c2"><rect x="-30" y="-567.146" width="1235.52"
+      height="37.9735"/></clipPath>
+    <clipPath id="signal-loss2-c3"><rect x="-30" y="-529.173" width="1235.52"
+      height="66.4537"/></clipPath>
+    <pattern id="signal-loss2-scan" width="9" height="9" patternUnits="userSpaceOnUse">
+      <rect width="9" height="4.4" fill="#0A1116" opacity=".62"/>
+    </pattern>
+  </defs>
+    <g clip-path="url(#signal-loss2-c1)"><g transform="translate(0,0)"><use href="#signal-loss2-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss2-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss2-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-loss2-c2)"><g transform="translate(-17,0)"><use href="#signal-loss2-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss2-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss2-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-loss2-c3)"><g transform="translate(7,0)"><use href="#signal-loss2-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-loss2-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-loss2-p" fill="#C6D2D6"/></g></g>
+    <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#signal-loss2-scan)"/>
+</svg><figcaption>96 px</figcaption></figure></div>
+  <p class="verdict"><span class="grade gsoftens">Softens</span>Still reads at 96 px, but the scanlines alias into moiré and the whole thing looks like a rendering fault — which is either the point or a disaster, depending on where it is placed.</p><span class="floor">Effect floor <b>392 px</b> <em>&mdash; scanline pitch 9 units, needs 3 px</em></span>
+</section>
+
+<section class="strip">
+  <h2>Reduction — all fourteen at 120 px</h2>
+  <p>The honest test. Each is rendered at 120 px wide on its own intended ground, at the same
+  scale the header of a phone-width site would use. Effects are drawn in artwork units, so they
+  shrink with the mark rather than staying put.</p>
+  <div class="striprow"><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Dusk">
+  <defs><path id="duskS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="duskS-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E4EDF0"/>
+      <stop offset=".5" stop-color="#C6D2D6"/>
+      <stop offset="1" stop-color="#546977"/>
+    </linearGradient>
+  </defs>
+    <use href="#duskS-p" fill="url(#duskS-g)"/>
+</svg><figcaption>Dusk</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chrome">
+  <defs><path id="chromeS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="chromeS-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#F6FBFD"/>
+      <stop offset=".17"  stop-color="#BCCBD3"/>
+      <stop offset=".35"  stop-color="#6C8492"/>
+      <stop offset=".475" stop-color="#16222C"/>
+      <stop offset=".505" stop-color="#0A1116"/>
+      <stop offset=".535" stop-color="#405A68"/>
+      <stop offset=".62"  stop-color="#CBDBE2"/>
+      <stop offset=".72"  stop-color="#F2F1EE"/>
+      <stop offset=".86"  stop-color="#7E939F"/>
+      <stop offset="1"    stop-color="#33454F"/>
+    </linearGradient>
+    <filter id="chromeS-f" x="-8%" y="-40%" width="116%" height="200%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <g filter="url(#chromeS-f)">
+      <use href="#chromeS-p" fill="none" stroke="#05090C" stroke-width="13" stroke-linejoin="round"/>
+      <use href="#chromeS-p" fill="url(#chromeS-g)"/>
+    </g>
+</svg><figcaption>Chrome</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Brass emboss">
+  <defs><path id="brass-embossS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="brass-embossS-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#D8B268"/>
+      <stop offset=".42" stop-color="#9C7C3C"/>
+      <stop offset=".58" stop-color="#6F5320"/>
+      <stop offset="1"   stop-color="#B3924A"/>
+    </linearGradient>
+    <filter id="brass-embossS-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".55"
+                    result="dropped"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.5" result="b"/>
+      <feSpecularLighting in="b" surfaceScale="7" specularConstant=".95" specularExponent="18"
+                          lighting-color="#FFF4DC" result="s">
+        <feDistantLight azimuth="235" elevation="58"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="dropped" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#brass-embossS-p" fill="url(#brass-embossS-g)" filter="url(#brass-embossS-f)"/>
+</svg><figcaption>Brass emboss</figcaption></figure><figure style="background:#1B2830;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Gold foil">
+  <defs><path id="gold-foilS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="gold-foilS-g" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0"   stop-color="#6E5222"/>
+      <stop offset=".2"  stop-color="#9C7C3C"/>
+      <stop offset=".38" stop-color="#F0DDA8"/>
+      <stop offset=".52" stop-color="#D9B36A"/>
+      <stop offset=".7"  stop-color="#8A6C31"/>
+      <stop offset=".85" stop-color="#E7CE94"/>
+      <stop offset="1"   stop-color="#9C7C3C"/>
+    </linearGradient>
+    <filter id="gold-foilS-f" x="-8%" y="-30%" width="116%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency=".006 .06" numOctaves="3" seed="11"
+                    result="n"/>
+      <feColorMatrix in="n" type="luminanceToAlpha" result="na"/>
+      <feComponentTransfer in="na" result="nb">
+        <feFuncA type="linear" slope="1.15" intercept="-.35"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#6B5220" result="dk"/>
+      <feComposite in="dk" in2="nb" operator="in" result="streak"/>
+      <feComposite in="streak" in2="SourceAlpha" operator="in" result="g2"/>
+      <feBlend in="SourceGraphic" in2="g2" mode="multiply" result="foil"/>
+      <feDropShadow in="foil" dx="0" dy="4" stdDeviation="4"
+                    flood-color="#000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+    <use href="#gold-foilS-p" fill="url(#gold-foilS-g)" filter="url(#gold-foilS-f)"/>
+</svg><figcaption>Gold foil</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Liquid">
+  <defs><path id="liquidS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="liquidS-g" x1="0" y1="0" x2=".08" y2="1">
+      <stop offset="0"   stop-color="#FFFFFF"/>
+      <stop offset=".22" stop-color="#9CB2BE"/>
+      <stop offset=".46" stop-color="#DCE9EE"/>
+      <stop offset=".62" stop-color="#22323C"/>
+      <stop offset=".68" stop-color="#5D7784"/>
+      <stop offset=".82" stop-color="#EAF3F6"/>
+      <stop offset="1"   stop-color="#41545F"/>
+    </linearGradient>
+    <filter id="liquidS-f" x="-10%" y="-40%" width="120%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .05" numOctaves="2" seed="5"
+                    result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R"
+                         yChannelSelector="G" result="warp"/>
+      <feGaussianBlur in="warp" stdDeviation=".7" result="soft"/>
+      <feDropShadow in="soft" dx="0" dy="6" stdDeviation="6" flood-color="#000"
+                    flood-opacity=".6"/>
+    </filter>
+  </defs>
+    <use href="#liquidS-p" fill="url(#liquidS-g)" filter="url(#liquidS-f)"/>
+</svg><figcaption>Liquid</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Chisel">
+  <defs><path id="chiselS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="chiselS-f" x="-12%" y="-45%" width="124%" height="210%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="b"/>
+      <feDiffuseLighting in="b" surfaceScale="9" diffuseConstant="1" lighting-color="#A9BCC6"
+                         result="d">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feDiffuseLighting>
+      <feComposite in="d" in2="SourceAlpha" operator="in" result="d2"/>
+      <feComposite in="d2" in2="SourceGraphic" operator="arithmetic"
+                   k1="1.15" k2="0" k3="0" k4="0" result="body"/>
+      <feSpecularLighting in="b" surfaceScale="9" specularConstant="1.1" specularExponent="34"
+                          lighting-color="#F3FAFC" result="s">
+        <feDistantLight azimuth="228" elevation="50"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="s2" in2="body" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+  </defs>
+    <use href="#chiselS-p" fill="#C6D2D6" filter="url(#chiselS-f)"/>
+</svg><figcaption>Chisel</figcaption></figure><figure style="background:#F2F1EE;color:#42525C"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Deboss">
+  <defs><path id="debossS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="debossS-f" x="-14%" y="-45%" width="128%" height="210%">
+      <feComponentTransfer in="SourceAlpha" result="inv">
+        <feFuncA type="table" tableValues="1 0"/>
+      </feComponentTransfer>
+      <feOffset in="inv" dx="3.5" dy="3.5" result="o1"/>
+      <feGaussianBlur in="o1" stdDeviation="3.2" result="b1"/>
+      <feComposite in="b1" in2="SourceAlpha" operator="in" result="m1"/>
+      <feFlood flood-color="#6B6960" flood-opacity=".9" result="c1"/>
+      <feComposite in="c1" in2="m1" operator="in" result="sh1"/>
+      <feOffset in="inv" dx="-3.5" dy="-3.5" result="o2"/>
+      <feGaussianBlur in="o2" stdDeviation="3.2" result="b2"/>
+      <feComposite in="b2" in2="SourceAlpha" operator="in" result="m2"/>
+      <feFlood flood-color="#FFFFFF" flood-opacity="1" result="c2"/>
+      <feComposite in="c2" in2="m2" operator="in" result="sh2"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="sh2"/>
+        <feMergeNode in="sh1"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#debossS-p" fill="#EDEBE5" filter="url(#debossS-f)"/>
+</svg><figcaption>Deboss</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="-70 -682.942 1315.52 282.223" role="img" aria-label="APEZONE — Punched plate">
+  <defs><path id="punched-plateS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <linearGradient id="punched-plateS-g" x1="0" y1="0" x2=".25" y2="1">
+      <stop offset="0"   stop-color="#5A7181"/>
+      <stop offset=".35" stop-color="#3F5260"/>
+      <stop offset=".55" stop-color="#4A5F6E"/>
+      <stop offset="1"   stop-color="#2C3B45"/>
+    </linearGradient>
+    <mask id="punched-plateS-m">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="#fff"/>
+      <use href="#punched-plateS-p" fill="#000"/>
+    </mask>
+    <filter id="punched-plateS-f" x="-10%" y="-30%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#000" flood-opacity=".85"/>
+    </filter>
+  </defs>
+    <rect x="-70" y="-682.942" width="1315.52"
+          height="282.223" fill="#060B0E"/>
+    <g filter="url(#punched-plateS-f)">
+      <rect x="-70" y="-682.942" width="1315.52"
+            height="282.223" fill="url(#punched-plateS-g)" mask="url(#punched-plateS-m)"/>
+    </g>
+</svg><figcaption>Punched plate</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -638.942 1175.52 194.223" role="img" aria-label="APEZONE — Extrude">
+  <defs><path id="extrudeS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+  </defs>
+    <g>
+      <use href="#extrudeS-p" transform="translate(27.00,27.00)" fill="rgb(27,40,48)"/>
+      <use href="#extrudeS-p" transform="translate(26.10,26.10)" fill="rgb(28,41,50)"/>
+      <use href="#extrudeS-p" transform="translate(25.20,25.20)" fill="rgb(29,43,51)"/>
+      <use href="#extrudeS-p" transform="translate(24.30,24.30)" fill="rgb(31,44,53)"/>
+      <use href="#extrudeS-p" transform="translate(23.40,23.40)" fill="rgb(32,46,54)"/>
+      <use href="#extrudeS-p" transform="translate(22.50,22.50)" fill="rgb(33,47,56)"/>
+      <use href="#extrudeS-p" transform="translate(21.60,21.60)" fill="rgb(34,48,58)"/>
+      <use href="#extrudeS-p" transform="translate(20.70,20.70)" fill="rgb(35,50,59)"/>
+      <use href="#extrudeS-p" transform="translate(19.80,19.80)" fill="rgb(37,51,61)"/>
+      <use href="#extrudeS-p" transform="translate(18.90,18.90)" fill="rgb(38,53,62)"/>
+      <use href="#extrudeS-p" transform="translate(18.00,18.00)" fill="rgb(39,54,64)"/>
+      <use href="#extrudeS-p" transform="translate(17.10,17.10)" fill="rgb(40,55,66)"/>
+      <use href="#extrudeS-p" transform="translate(16.20,16.20)" fill="rgb(41,57,67)"/>
+      <use href="#extrudeS-p" transform="translate(15.30,15.30)" fill="rgb(43,58,69)"/>
+      <use href="#extrudeS-p" transform="translate(14.40,14.40)" fill="rgb(44,60,70)"/>
+      <use href="#extrudeS-p" transform="translate(13.50,13.50)" fill="rgb(45,61,72)"/>
+      <use href="#extrudeS-p" transform="translate(12.60,12.60)" fill="rgb(46,62,74)"/>
+      <use href="#extrudeS-p" transform="translate(11.70,11.70)" fill="rgb(47,64,75)"/>
+      <use href="#extrudeS-p" transform="translate(10.80,10.80)" fill="rgb(49,65,77)"/>
+      <use href="#extrudeS-p" transform="translate(9.90,9.90)" fill="rgb(50,67,78)"/>
+      <use href="#extrudeS-p" transform="translate(9.00,9.00)" fill="rgb(51,68,80)"/>
+      <use href="#extrudeS-p" transform="translate(8.10,8.10)" fill="rgb(52,69,82)"/>
+      <use href="#extrudeS-p" transform="translate(7.20,7.20)" fill="rgb(53,71,83)"/>
+      <use href="#extrudeS-p" transform="translate(6.30,6.30)" fill="rgb(55,72,85)"/>
+      <use href="#extrudeS-p" transform="translate(5.40,5.40)" fill="rgb(56,74,86)"/>
+      <use href="#extrudeS-p" transform="translate(4.50,4.50)" fill="rgb(57,75,88)"/>
+      <use href="#extrudeS-p" transform="translate(3.60,3.60)" fill="rgb(58,76,90)"/>
+      <use href="#extrudeS-p" transform="translate(2.70,2.70)" fill="rgb(59,78,91)"/>
+      <use href="#extrudeS-p" transform="translate(1.80,1.80)" fill="rgb(61,79,93)"/>
+      <use href="#extrudeS-p" transform="translate(0.90,0.90)" fill="rgb(62,81,94)"/>
+      <use href="#extrudeS-p" fill="#C6D2D6"/>
+    </g>
+</svg><figcaption>Extrude</figcaption></figure><figure style="background:#05090C;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="-46 -666.942 1267.52 250.223" role="img" aria-label="APEZONE — Neon">
+  <defs><path id="neonS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <radialGradient id="neonS-halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0"  stop-color="#9C7C3C" stop-opacity=".38"/>
+      <stop offset="1"  stop-color="#9C7C3C" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="neonS-b1" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <filter id="neonS-b2" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="neonS-b3" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+  </defs>
+    <rect x="-46" y="-666.942" width="1267.52" height="250.223"
+          fill="url(#neonS-halo)"/>
+    <use href="#neonS-p" fill="none" stroke="#9C7C3C" stroke-width="30" stroke-linejoin="round"
+         opacity=".55" filter="url(#neonS-b1)"/>
+    <use href="#neonS-p" fill="none" stroke="#D9B36A" stroke-width="15" stroke-linejoin="round"
+         opacity=".7" filter="url(#neonS-b2)"/>
+    <use href="#neonS-p" fill="none" stroke="#D9B36A" stroke-width="7" stroke-linejoin="round"
+         filter="url(#neonS-b3)"/>
+    <use href="#neonS-p" fill="none" stroke="#FFF6E2" stroke-width="2.6" stroke-linejoin="round"/>
+</svg><figcaption>Neon</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="-40 -660.942 1255.52 238.223" role="img" aria-label="APEZONE — Cold glow">
+  <defs><path id="cold-glowS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <filter id="cold-glowS-f" x="-16%" y="-60%" width="132%" height="220%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="16" result="g1"/>
+      <feFlood flood-color="#8FD3EA" flood-opacity=".55" result="c1"/>
+      <feComposite in="c1" in2="g1" operator="in" result="halo"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="g2"/>
+      <feFlood flood-color="#CFE9F3" flood-opacity=".75" result="c2"/>
+      <feComposite in="c2" in2="g2" operator="in" result="near"/>
+      <feMerge>
+        <feMergeNode in="halo"/>
+        <feMergeNode in="near"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+    <use href="#cold-glowS-p" fill="#EAF4F8" filter="url(#cold-glowS-f)"/>
+</svg><figcaption>Cold glow</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Engraved hatch">
+  <defs><path id="engraved-hatchS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="engraved-hatchS-pat" width="15" height="15" patternUnits="userSpaceOnUse"
+             patternTransform="rotate(38)">
+      <rect width="15" height="15" fill="#0A1116"/>
+      <rect x="0" y="0" width="5.2" height="15" fill="#C6D2D6"/>
+    </pattern>
+  </defs>
+    <use href="#engraved-hatchS-p" fill="url(#engraved-hatchS-pat)"/>
+    <use href="#engraved-hatchS-p" fill="none" stroke="#C6D2D6" stroke-width="3.2" stroke-linejoin="round"/>
+</svg><figcaption>Engraved hatch</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Halftone fade">
+  <defs><path id="halftoneS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <pattern id="halftoneS-dots" width="17" height="17" patternUnits="userSpaceOnUse">
+      <circle cx="4.2" cy="4.2" r="3.3" fill="#C6D2D6"/>
+      <circle cx="12.7" cy="12.7" r="3.3" fill="#C6D2D6"/>
+    </pattern>
+    <linearGradient id="halftoneS-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".42" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".95" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="halftoneS-fm">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftoneS-fade)"/>
+    </mask>
+    <clipPath id="halftoneS-c"><use href="#halftoneS-p" clip-rule="evenodd"/></clipPath>
+  </defs>
+    <g clip-path="url(#halftoneS-c)">
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#halftoneS-dots)"/>
+      <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="#C6D2D6"
+            mask="url(#halftoneS-fm)"/>
+    </g>
+</svg><figcaption>Halftone fade</figcaption></figure><figure style="background:#0A1116;color:#8A9AA3"><svg width="120" xmlns="http://www.w3.org/2000/svg" viewBox="0 -620.942 1175.52 158.223" role="img" aria-label="APEZONE — Signal loss">
+  <defs><path id="signal-lossS-p" fill-rule="evenodd" d="M 133.53 -465.55 L 95.85 -465.55 L 66.76 -533.25 L 37.68 -465.55 L 0 -465.55 L 66.76 -620.94 L 133.53 -465.55 Z M 225.75 -582.85 L 225.75 -555.34 C 236.37 -550.33 255.08 -558.09 254.29 -571.11 C 250.61 -582.44 235.65 -583.94 225.75 -582.85 Z M 225.75 -524.82 L 225.75 -465.55 L 189.7 -465.55 L 189.7 -614.38 C 214.64 -613.2 251.27 -621.11 272.92 -600.88 C 282.24 -592.94 286.2 -580.31 285.2 -568.34 C 285.34 -557.29 281.04 -546.27 273.29 -538.37 C 261.44 -525.54 242.28 -522.84 225.75 -524.82 Z M 436.47 -465.55 L 345.23 -465.55 L 345.23 -614.25 L 436.47 -614.25 L 436.47 -582.67 L 380.93 -582.67 L 380.93 -555.96 L 436.47 -555.96 L 436.47 -525.09 L 380.93 -525.09 L 380.93 -497.13 L 436.47 -497.13 L 436.47 -465.55 Z M 612.55 -598.83 L 545.91 -496.42 L 611.78 -496.42 L 611.78 -465.55 L 495.52 -465.55 L 495.53 -479.36 L 562.63 -583.38 L 506.35 -583.38 L 506.35 -614.25 L 612.42 -614.25 L 612.55 -598.83 Z M 825.08 -539.9 C 826.18 -498.66 789.13 -461.62 747.9 -462.72 C 706.66 -461.62 669.62 -498.66 670.72 -539.9 C 669.62 -581.14 706.66 -618.18 747.9 -617.08 C 789.13 -618.18 826.18 -581.14 825.08 -539.9 Z M 789.39 -539.9 C 790.14 -562.79 771.89 -586.5 747.9 -586.21 C 723.9 -586.5 705.65 -562.79 706.41 -539.9 C 705.65 -517.01 723.9 -493.3 747.9 -493.59 C 771.89 -493.3 790.14 -517.01 789.39 -539.9 Z M 1018.29 -465.55 L 1000.34 -465.55 L 919.27 -551.89 L 919.27 -465.55 L 884.64 -465.55 L 884.64 -614.25 L 903.15 -614.25 L 983.3 -528.33 L 983.3 -614.25 L 1018.29 -614.25 L 1018.29 -465.55 Z M 1175.52 -465.55 L 1084.29 -465.55 L 1084.29 -614.25 L 1175.52 -614.25 L 1175.52 -582.67 L 1119.98 -582.67 L 1119.98 -555.96 L 1175.52 -555.96 L 1175.52 -525.09 L 1119.98 -525.09 L 1119.98 -497.13 L 1175.52 -497.13 L 1175.52 -465.55 Z"/>
+    <clipPath id="signal-lossS-c1"><rect x="-30" y="-620.942" width="1235.52"
+      height="53.7958"/></clipPath>
+    <clipPath id="signal-lossS-c2"><rect x="-30" y="-567.146" width="1235.52"
+      height="37.9735"/></clipPath>
+    <clipPath id="signal-lossS-c3"><rect x="-30" y="-529.173" width="1235.52"
+      height="66.4537"/></clipPath>
+    <pattern id="signal-lossS-scan" width="9" height="9" patternUnits="userSpaceOnUse">
+      <rect width="9" height="4.4" fill="#0A1116" opacity=".62"/>
+    </pattern>
+  </defs>
+    <g clip-path="url(#signal-lossS-c1)"><g transform="translate(0,0)"><use href="#signal-lossS-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-lossS-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-lossS-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-lossS-c2)"><g transform="translate(-17,0)"><use href="#signal-lossS-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-lossS-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-lossS-p" fill="#C6D2D6"/></g></g>
+    <g clip-path="url(#signal-lossS-c3)"><g transform="translate(7,0)"><use href="#signal-lossS-p" fill="#7FB4C9" transform="translate(-8,0)" opacity=".9"/><use href="#signal-lossS-p" fill="#9C7C3C" transform="translate(8,0)" opacity=".9"/><use href="#signal-lossS-p" fill="#C6D2D6"/></g></g>
+    <rect x="0" y="-620.942" width="1175.52" height="158.223" fill="url(#signal-lossS-scan)"/>
+</svg><figcaption>Signal loss</figcaption></figure></div>
+</section>
+
+<footer>Built by <code>brand/wordmark-fun/build_fun.py</code>. Standalone SVGs in
+<code>brand/wordmark-fun/svg/</code>, one per treatment, each self-contained with its ground.</footer>
+</div></body></html>
